@@ -15,37 +15,39 @@ public class Main {
         BufferedReader inClient = new BufferedReader(new InputStreamReader(server.getInputStream()));
         //отправка данных клиенту
         PrintWriter outClient = new PrintWriter(server.getOutputStream(), true);
-        outClient.println("Соединение с " + server.getLocalSocketAddress() + " установлено");
-        String messageClient = inClient.readLine();
-        System.out.println(messageClient);
-//        while (!server.isClosed()) {
-        outClient.println("Как тебя зовут?");
-        System.out.println(inClient.readLine());
+        boolean bool = true;
+        outClient.println("Привет! Как тебя зовут?");
         userName = inClient.readLine();
-        outClient.println("Привет " + userName + "!");
-        outClient.println("Если Вы не робот, введите число от 1 до 10");
-        System.out.println(inClient.readLine());
-        try {
-            if (Integer.getInteger(inClient.readLine()) > 0 || Integer.getInteger(inClient.readLine()) < 11)
-                outClient.println("Добро пожаловать, " + userName + "!");
-        } catch (NullPointerException e) {
-            outClient.println("Вы ввели некорректное значение, повторите");
-            messageClient = inClient.readLine();
+        outClient.println("Привет " + userName + "! Если Вы не робот, введите число от 1 до 10");
+        String msg;
+        while (bool) {
+            msg = inClient.readLine();
+            try {
+                int cod = Integer.parseInt(msg.trim());
+                if (cod > 0 && cod < 11) {
+                    outClient.println("Добро пожаловать, " + userName + "! Ты еще ребенок? (да/нет)");
+                    bool = false;
+                } else throw new NumberFormatException("Вы ввели некорректное значение, повторите ввод");
+            } catch (NumberFormatException e) {
+                outClient.println("Вы ввели некорректное значение, повторите ввод");
+            }
         }
-        outClient.println("Ты еще ребенок? (да/нет)");
-        messageClient = inClient.readLine();
-        while (!messageClient.equals("да")) {
-            if ("нет".equals(messageClient)) {
-                outClient.println("Привет! " + userName + ", Вы попали на сайт налоговой службы! " +
+        msg = inClient.readLine();
+        while (!serverSocket.isClosed()) {
+            if (msg.equals("да")) {
+                outClient.println("Извини, этот сайт для взрослых, До свидания! Сервер прощается с Вами. всего хорошего!");
+                serverSocket.close();
+            } else if (msg.equals("нет")) {
+                outClient.println(userName + ", Вы попали на сайт налоговой службы! " +
                         "Давайте Ваши денежки!");
+                serverSocket.close();
             } else {
                 outClient.println("Введите корректное значение");
-                messageClient = inClient.readLine();
-                continue;
+                msg = inClient.readLine();
             }
-            outClient.println("Извини, этот сайт для взрослых, До свидания");
         }
-        server.close();
+        outClient.println("Сервер прощается с Вами. всего хорошего!");
+        serverSocket.close();
     }
 }
 

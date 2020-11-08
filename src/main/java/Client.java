@@ -16,16 +16,13 @@ public class Client {
         // получение данных с сервера
         BufferedReader inServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         String msg;
-            outServer.println("Привет сервер!");
-        System.out.println("SERVER: " + inServer.readLine());
-            while (!(inServer.readLine()==null)) {
-                System.out.println("SERVER: " + inServer.readLine());
-                msg = scan.nextLine();
+        while (!socket.isClosed()) {
+            System.out.println("SERVER: " + inServer.readLine());
+            msg = scan.nextLine();
             outServer.println(msg);
+            outServer.flush();
             if ("end".equals(msg)) break;
-            System.out.println("SERVER: " + msg);
         }
-
         inServer.close();
     }
 }
