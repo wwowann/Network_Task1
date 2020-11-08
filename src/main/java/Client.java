@@ -1,18 +1,13 @@
-import com.sun.xml.internal.ws.api.policy.subject.BindingSubject;
-
-import javax.swing.plaf.synth.SynthTabbedPaneUI;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class Client {
     public static void main(String[] args) throws IOException {
-        String host = "netology.workhost";
+//        String host = "netology.workhost";
         int serverPort = 8080;
         Scanner scan = new Scanner(System.in);
         Socket socket = new Socket("127.0.0.1", serverPort);
