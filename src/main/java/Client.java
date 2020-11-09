@@ -11,8 +11,8 @@ public class Client {
     public static void main(String[] args) throws IOException {
         String host = "netology.homework";
         int serverPort = 8080;
-//        InetAddress inetAddress = InetAddress.getByName(host);
-        Socket socket = new Socket(host, serverPort);
+        InetAddress inetAddress = InetAddress.getByName(host);
+        Socket socket = new Socket(inetAddress, serverPort);
         Scanner scan = new Scanner(System.in);
         socket.setSoTimeout(10000);
         //отправка данных серверу
